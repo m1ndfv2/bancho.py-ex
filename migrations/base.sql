@@ -487,3 +487,19 @@ insert into achievements (id, file, name, `desc`, cond) values (80, 'all-intro-n
 insert into achievements (id, file, name, `desc`, cond) values (81, 'all-intro-nightcore', 'Sweet Rave Party', 'Founded in the fine tradition of changing things that were just fine as they were.', 'score.mods & 512');
 insert into achievements (id, file, name, `desc`, cond) values (82, 'all-intro-halftime', 'Slowboat', 'You got there. Eventually.', 'score.mods & 256');
 insert into achievements (id, file, name, `desc`, cond) values (83, 'all-intro-spunout', 'Burned Out', 'One cannot always spin to win.', 'score.mods & 4096');
+
+create table supporter_keys
+(
+    id int auto_increment primary key,
+    code char(26) not null,
+    duration_days int not null,
+    created_by int not null,
+    used_by int default 0 not null,
+    created_at datetime default CURRENT_TIMESTAMP not null,
+    used_at datetime null,
+    batch_id varchar(64) null,
+    note varchar(255) null,
+    constraint supporter_keys_code_uindex unique (code),
+    key supporter_keys_used_by_idx (used_by),
+    key supporter_keys_created_at_idx (created_at)
+);

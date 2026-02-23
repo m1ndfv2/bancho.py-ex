@@ -475,3 +475,22 @@ create index users_country_index
 # v5.2.2
 create index scores_fetch_leaderboard_generic_index
 	on scores (map_md5, status, mode);
+
+# v3.2.1
+create table if not exists supporter_keys
+(
+    id int auto_increment primary key,
+    code char(26) not null,
+    duration_days int not null,
+    created_by int not null,
+    used_by int default 0 not null,
+    created_at datetime default CURRENT_TIMESTAMP not null,
+    used_at datetime null,
+    batch_id varchar(64) null,
+    note varchar(255) null,
+    constraint supporter_keys_code_uindex unique (code)
+);
+alter table supporter_keys add column if not exists batch_id varchar(64) null;
+alter table supporter_keys add column if not exists note varchar(255) null;
+create index supporter_keys_used_by_idx on supporter_keys (used_by);
+create index supporter_keys_created_at_idx on supporter_keys (created_at);
